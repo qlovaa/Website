@@ -1,253 +1,96 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Alien Ascension</title>
-<style>
-  :root{
-    --bg:#070b16; --panel:#0d1425; --panel2:#111b31; --line:#243554;
-    --text:#eef6ff; --muted:#8da1bd; --cyan:#50e6ff; --green:#66ffb3;
-    --purple:#a77bff; --gold:#ffd76a; --danger:#ff668a;
-  }
-  *{box-sizing:border-box}
-  body{margin:0;background:
-    radial-gradient(circle at 20% 0%,#162852 0,transparent 34%),
-    radial-gradient(circle at 85% 15%,#1b1240 0,transparent 30%),var(--bg);
-    color:var(--text);font-family:Inter,system-ui,Segoe UI,Arial,sans-serif;min-height:100vh}
-  button{font:inherit;color:inherit}
-  .top{height:72px;border-bottom:1px solid var(--line);background:#080e1bf2;display:flex;align-items:center;justify-content:space-between;padding:0 24px;position:sticky;top:0;z-index:10;backdrop-filter:blur(14px)}
-  .brand{font-weight:900;letter-spacing:.12em;font-size:20px}.brand span{color:var(--cyan)}
-  .stats{display:flex;gap:20px;align-items:center;font-size:13px;color:var(--muted)}
-  .stats b{color:var(--text);font-size:15px}
-  .layout{max-width:1400px;margin:auto;display:grid;grid-template-columns:280px 1fr 360px;gap:18px;padding:18px}
-  .panel{background:linear-gradient(180deg,#101a2d,#0b1322);border:1px solid var(--line);border-radius:16px;box-shadow:0 18px 50px #0005;overflow:hidden}
-  .panel h2{font-size:13px;text-transform:uppercase;letter-spacing:.12em;color:#9bb0cf;margin:0;padding:17px 18px;border-bottom:1px solid var(--line)}
-  .side-pad{padding:14px}
-  .intel{padding:15px;background:#0a1221;border:1px solid #1c2c48;border-radius:12px;color:#a9bbd6;font-size:12px;line-height:1.55}
-  .intel strong{color:var(--cyan)}
-  .day{font-size:34px;font-weight:900;margin:5px 0}.era{color:var(--purple);font-weight:800}
-  .progress{height:7px;background:#1a2840;border-radius:9px;overflow:hidden;margin:10px 0}.progress i{display:block;height:100%;background:linear-gradient(90deg,var(--cyan),var(--purple));width:0}
-  .mission{padding:12px;margin:8px 0;border:1px solid #1e2d49;border-radius:11px;background:#0b1425;font-size:12px}
-  .mission b{display:block;margin-bottom:5px}.mission small{color:var(--muted)}
-  .main{text-align:center;min-width:0}
-  .resource{padding:25px 20px 4px}.resource .amount{font-size:50px;font-weight:950;letter-spacing:-.04em;text-shadow:0 0 25px #50e6ff33}
-  .resource .label{color:var(--muted);font-size:13px;text-transform:uppercase;letter-spacing:.18em}.rate{margin-top:9px;color:var(--green);font-size:14px}
-  .planet-wrap{height:455px;display:flex;align-items:center;justify-content:center;position:relative}
-  .orbit{position:absolute;border:1px solid #2a4164;border-radius:50%;width:330px;height:330px;animation:spin 18s linear infinite}
-  .orbit:after{content:"";position:absolute;width:9px;height:9px;background:var(--cyan);border-radius:50%;top:18px;left:48px;box-shadow:0 0 16px var(--cyan)}
-  .planet{width:245px;height:245px;border-radius:50%;cursor:pointer;border:0;position:relative;
-    background:radial-gradient(circle at 35% 27%,#d8ffff 0 2%,#6de4ff 7%,#3671d0 31%,#1e2a82 59%,#0b1241 100%);
-    box-shadow:0 0 40px #50e6ff88,0 0 100px #574cff33,inset -30px -20px 50px #0008;
-    transition:transform .08s}
-  .planet:before{content:"";position:absolute;inset:18% 10%;border-radius:50%;border:12px solid #72ffc266;transform:rotate(-18deg);filter:blur(.2px)}
-  .planet:after{content:"✦";position:absolute;inset:0;display:grid;place-items:center;font-size:55px;color:#eaffff88}
-  .planet:active{transform:scale(.94)}
-  .click-hint{color:#7187a6;font-size:12px;margin-top:-12px}.float{position:absolute;font-weight:900;color:var(--cyan);pointer-events:none;animation:float 900ms ease-out forwards}
-  @keyframes float{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-100px) scale(1.3)}}
-  @keyframes spin{to{transform:rotate(360deg)}}
-  .tabs{display:flex;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-  .tabs button{flex:1;padding:13px;background:none;border:0;color:var(--muted);cursor:pointer}.tabs button.active{color:var(--cyan);background:#0e1a2e}
-  .shop{padding:12px;display:grid;gap:9px;max-height:420px;overflow:auto}
-  .item{display:grid;grid-template-columns:46px 1fr auto;gap:11px;align-items:center;padding:11px;background:#0b1425;border:1px solid #1d2d49;border-radius:12px;text-align:left;cursor:pointer;transition:.15s}
-  .item:hover{border-color:#41668e;transform:translateY(-1px)}.item.locked{opacity:.45;cursor:not-allowed}
-  .icon{width:46px;height:46px;border-radius:11px;background:#14233b;display:grid;place-items:center;font-size:23px}
-  .item h3{margin:0;font-size:13px}.item p{margin:4px 0 0;color:var(--muted);font-size:11px}.cost{color:var(--gold);font-size:12px;font-weight:800;white-space:nowrap}.owned{color:#6e86a7;font-size:11px;text-align:right;margin-top:4px}
-  .lower{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:14px}.card{background:#0a1322;border:1px solid #1c2c48;border-radius:12px;padding:14px;text-align:left}.card h3{font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:#9bb0cf;margin:0 0 9px}.card p{margin:0;color:#a9bbd6;font-size:12px;line-height:1.5}
-  .ach{display:flex;gap:8px;flex-wrap:wrap}.badge{border:1px solid #263958;border-radius:9px;padding:7px 9px;font-size:11px;color:#7187a6}.badge.on{color:var(--gold);border-color:#66552a;background:#261f0e}
-  .log{max-height:130px;overflow:auto;font-size:11px;color:#7890b0}.log div{padding:5px 0;border-bottom:1px solid #14223a}
-  .toast{position:fixed;right:20px;bottom:20px;background:#101c31;border:1px solid #355277;padding:12px 15px;border-radius:11px;opacity:0;transform:translateY(15px);transition:.25s;z-index:30}.toast.show{opacity:1;transform:translateY(0)}
-  .footer{padding:0 18px 18px;color:#536b8d;font-size:10px;text-align:center}
-  @media(max-width:1050px){.layout{grid-template-columns:220px 1fr}.right{grid-column:1/-1}.shop{max-height:none}}
-  @media(max-width:720px){.top{height:auto;padding:14px;gap:10px;align-items:flex-start}.stats{gap:9px;flex-wrap:wrap}.layout{grid-template-columns:1fr;padding:10px}.left,.right{grid-column:auto}.planet-wrap{height:350px}.planet{width:205px;height:205px}.orbit{width:280px;height:280px}.lower{grid-template-columns:1fr}}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+  <meta name="theme-color" content="#07111f">
+  <title>Neon Borough — Open World</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect rx='14' width='64' height='64' fill='%2307111f'/%3E%3Cpath d='M10 38 18 22h28l8 16v10H10z' fill='%2338d9ff'/%3E%3Ccircle cx='21' cy='47' r='6' fill='%23fff'/%3E%3Ccircle cx='44' cy='47' r='6' fill='%23fff'/%3E%3Cpath d='M23 26h18l5 10H18z' fill='%2307111f'/%3E%3C/svg%3E">
+  <style>
+    :root{--cyan:#46dbff;--pink:#ff4f9a;--ink:#07111f;--glass:rgba(5,14,27,.76);--line:rgba(255,255,255,.14)}
+    *{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#02070d;color:#fff;font:500 15px/1.35 Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif;touch-action:none}button{font:inherit;color:inherit}
+    canvas{display:block}.hidden{display:none!important}
+    #loading,#start,#pause{position:fixed;inset:0;z-index:30;display:grid;place-items:center;background:radial-gradient(circle at 50% 30%,#132c43 0,#07111f 45%,#02060c 100%)}
+    #loading{z-index:50}.loader{width:min(420px,80vw);text-align:center}.brand{font-size:clamp(2.3rem,7vw,5.6rem);font-weight:900;letter-spacing:-.07em;line-height:.82;text-transform:uppercase}.brand span{display:block;color:var(--cyan);font-size:.32em;letter-spacing:.34em;margin:16px 0 28px}.bar{height:4px;background:#ffffff18;border-radius:9px;overflow:hidden}.bar i{display:block;width:0;height:100%;background:linear-gradient(90deg,var(--cyan),var(--pink));animation:load 1.8s ease forwards}@keyframes load{to{width:100%}}
+    .menu{width:min(620px,92vw);padding:38px;border:1px solid var(--line);border-radius:28px;background:linear-gradient(145deg,rgba(12,31,51,.88),rgba(4,11,21,.92));box-shadow:0 32px 100px #000a;backdrop-filter:blur(18px)}.menu p{color:#b9c8d8;max-width:50ch}.mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:28px}.mode,.pill,.action,.iconbtn{border:1px solid var(--line);background:#ffffff0b;border-radius:14px;padding:14px;cursor:pointer;transition:.18s}.mode{text-align:left}.mode:hover,.pill:hover,.action:hover,.iconbtn:hover{transform:translateY(-2px);border-color:#46dbff88;background:#46dbff16}.mode b{display:block;font-size:1.05rem;margin-bottom:4px}.mode small{color:#9eb0c2}.mode.primary{background:linear-gradient(135deg,#1c789a,#7251ad);border:0}.controls-copy{font-size:.8rem;color:#8ea4b8!important;margin-top:22px!important}
+    #hud{position:fixed;inset:0;z-index:10;pointer-events:none}.top{position:absolute;left:20px;right:20px;top:18px;display:flex;justify-content:space-between;align-items:flex-start;gap:16px}.cluster{display:flex;gap:10px;flex-wrap:wrap}.stat{min-width:92px;padding:10px 13px;border:1px solid var(--line);border-radius:13px;background:var(--glass);backdrop-filter:blur(12px);box-shadow:0 8px 30px #0004}.stat span{display:block;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:#8fa9bd}.stat b{font-size:1rem}.objective{position:absolute;left:50%;top:18px;transform:translateX(-50%);width:min(430px,45vw);text-align:center;padding:11px 16px;border:1px solid #46dbff44;border-radius:13px;background:var(--glass);backdrop-filter:blur(12px)}.objective span{font-size:.7rem;letter-spacing:.16em;color:var(--cyan);text-transform:uppercase}.objective b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    #map{position:absolute;right:20px;bottom:20px;width:170px;height:170px;border:1px solid var(--line);border-radius:22px;background:#06101dcc;box-shadow:0 12px 40px #0006}.speed{position:absolute;right:212px;bottom:22px;width:108px;height:108px;border:1px solid var(--line);border-radius:50%;display:grid;place-content:center;text-align:center;background:var(--glass);backdrop-filter:blur(12px)}.speed b{font-size:2rem;line-height:1}.speed span{font-size:.68rem;color:#9ab0c1;letter-spacing:.1em}.fuelbar{position:absolute;right:224px;bottom:10px;width:84px;height:4px;background:#ffffff1a;border-radius:5px}.fuelbar i{display:block;height:100%;border-radius:5px;background:var(--cyan);transition:.3s}
+    #controls{position:absolute;left:20px;bottom:20px;display:flex;gap:7px;pointer-events:auto}.pill{padding:9px 12px;border-radius:999px;background:var(--glass);font-size:.76rem}.pill.active{background:#46dbff2e;border-color:var(--cyan);color:#dff9ff}.prompt{position:absolute;left:50%;bottom:30px;transform:translateX(-50%);padding:11px 18px;border:1px solid #fff3;border-radius:999px;background:#07111fe8;opacity:0;transition:.2s}.prompt.show{opacity:1}.toast{position:absolute;left:50%;top:110px;transform:translate(-50%,-10px);padding:12px 18px;border-radius:12px;background:#07111fee;border:1px solid var(--cyan);opacity:0;transition:.25s}.toast.show{opacity:1;transform:translate(-50%,0)}
+    #panel{position:fixed;z-index:24;right:24px;top:50%;transform:translateY(-50%);width:min(350px,calc(100vw - 48px));padding:22px;border:1px solid var(--line);border-radius:22px;background:#07111ff2;box-shadow:0 30px 90px #0009}.panel-head{display:flex;justify-content:space-between;align-items:center}.panel-head h2{margin:0}.iconbtn{padding:7px 11px}.panel-copy{color:#aebdcc}.panel-actions{display:grid;gap:9px}.action{text-align:left}.action b{display:block}.action small{color:#92a5b7}
+    #pause{background:#02070db8;backdrop-filter:blur(12px)}
+    #touch{display:none;position:fixed;inset:0;z-index:18;pointer-events:none}.touchpad{position:absolute;bottom:26px;display:grid;grid-template-columns:repeat(3,58px);grid-template-rows:repeat(2,58px);gap:6px;pointer-events:auto}.touchpad.left{left:18px}.touchpad.right{right:18px}.touch{border:1px solid #ffffff2a;border-radius:18px;background:#07111f9c;color:white;font-size:1.25rem;backdrop-filter:blur(6px);user-select:none}.touch:active{background:#46dbff66}.up{grid-column:2}.down{grid-column:2;grid-row:2}.lt{grid-column:1;grid-row:2}.rt{grid-column:3;grid-row:2}.e{grid-column:1;grid-row:1}.r{grid-column:3;grid-row:1}
+    @media(max-width:760px),(pointer:coarse){#touch{display:block}.top{left:10px;right:10px;top:10px}.stat{min-width:72px;padding:8px;font-size:.78rem}.stat.weather,.stat.clock{display:none}.objective{top:82px;width:calc(100vw - 20px)}#map{width:120px;height:120px;right:10px;bottom:150px}.speed{right:18px;bottom:286px;width:84px;height:84px}.speed b{font-size:1.5rem}.fuelbar{right:28px;bottom:282px;width:64px}#controls{display:none}.prompt{bottom:155px;white-space:nowrap}.menu{padding:24px}.mode-grid{grid-template-columns:1fr}.brand{font-size:3rem}}
+  </style>
 </head>
 <body>
-<header class="top">
-  <div class="brand">ALIEN <span>ASCENSION</span></div>
-  <div class="stats">
-    <span>ENERGY <b id="topEnergy">0</b></span>
-    <span>POPULATION <b id="topPop">100</b></span>
-    <span>TECH <b id="topTech">0</b></span>
+  <div id="loading"><div class="loader"><div class="brand">Neon Borough<span>Open World</span></div><div class="bar"><i></i></div></div></div>
+  <div id="start" class="hidden"><div class="menu"><div class="brand">Neon Borough<span>Open World</span></div><p>Walk the city. Take the wheel. Make a living—or just chase the horizon.</p><div class="mode-grid"><button class="mode primary" data-mode="regular"><b>Regular life</b><small>Earn money, manage fuel, build your ride.</small></button><button class="mode" data-mode="sandbox"><b>Sandbox</b><small>Infinite cash and fuel. Everything unlocked.</small></button></div><p class="controls-copy">WASD / arrows move · Shift sprint or boost · E interact · Space handbrake · C camera · R reset · Esc pause</p></div></div>
+  <div id="hud" class="hidden">
+    <div class="top"><div class="cluster"><div class="stat"><span>Balance</span><b id="money">$750</b></div><div class="stat"><span>Mode</span><b id="modeLabel">Regular</b></div><div class="stat weather"><span>Weather</span><b id="weatherLabel">Sunny</b></div></div><div class="stat clock"><span>Local time</span><b id="clock">09:00</b></div></div>
+    <div class="objective"><span>Current objective</span><b id="objective">Explore the borough</b></div>
+    <canvas id="map" width="220" height="220"></canvas><div class="speed"><b id="speed">0</b><span>KM/H</span></div><div class="fuelbar"><i id="fuelbar"></i></div>
+    <div id="controls"><button class="pill active" data-weather="sunny">Sunny</button><button class="pill" data-weather="cloudy">Cloudy</button><button class="pill" data-weather="rainy">Rain</button><button class="pill" data-weather="stormy">Storm</button><button class="pill active" data-time="normal">Normal</button><button class="pill" data-time="morning">Morning</button><button class="pill" data-time="night">Night</button></div>
+    <div id="prompt" class="prompt"></div><div id="toast" class="toast"></div>
   </div>
-</header>
+  <div id="panel" class="hidden"><div class="panel-head"><h2 id="panelTitle"></h2><button class="iconbtn" id="closePanel">×</button></div><p id="panelCopy" class="panel-copy"></p><div id="panelActions" class="panel-actions"></div></div>
+  <div id="pause" class="hidden"><div class="menu"><div class="brand" style="font-size:3rem">Paused<span>Take a breath</span></div><div class="mode-grid"><button class="mode primary" id="resume"><b>Resume</b><small>Return to Neon Borough.</small></button><button class="mode" id="restart"><b>Main menu</b><small>Progress is saved automatically.</small></button></div></div></div>
+  <div id="touch"><div class="touchpad left"><button class="touch up" data-key="KeyW">▲</button><button class="touch lt" data-key="KeyA">◀</button><button class="touch down" data-key="KeyS">▼</button><button class="touch rt" data-key="KeyD">▶</button></div><div class="touchpad right"><button class="touch e" data-tap="KeyE">E</button><button class="touch up" data-key="ShiftLeft">⚡</button><button class="touch r" data-tap="KeyR">R</button><button class="touch down" data-key="Space">●</button></div></div>
 
-<div class="layout">
-  <aside class="panel left">
-    <h2>Colony Status</h2>
-    <div class="side-pad">
-      <div class="era" id="era">PRIMITIVE COLONY</div>
-      <div class="day" id="day">DAY 1</div>
-      <div style="font-size:11px;color:#7489a7">Next day</div>
-      <div class="progress"><i id="dayBar"></i></div>
-      <div id="dayTimer" style="font-size:11px;color:#91a7c6">60 seconds</div>
-      <div class="intel" style="margin-top:13px">
-        <strong>Mission Control</strong><br>
-        Your species has reached an untouched world. Build a civilisation capable of leaving the planet.
-      </div>
-      <h2 style="margin:16px -14px 10px;padding:14px;border-top:1px solid var(--line)">Missions</h2>
-      <div id="missions"></div>
-    </div>
-  </aside>
+  <script type="module">
+    import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.168.0/build/three.module.js';
 
-  <main class="panel main">
-    <div class="resource">
-      <div class="amount" id="energy">0</div>
-      <div class="label">Quantum Energy</div>
-      <div class="rate" id="rate">+0 / sec</div>
-    </div>
-    <div class="planet-wrap">
-      <div class="orbit"></div>
-      <button class="planet" id="planet" aria-label="Harvest quantum energy"></button>
-    </div>
-    <div class="click-hint">CLICK THE PLANET TO HARVEST ENERGY</div>
-    <div class="lower">
-      <div class="card"><h3>Species</h3><p id="species">The Zyrn — curious, resilient, and dangerously ambitious.</p></div>
-      <div class="card"><h3>Colony Log</h3><div class="log" id="log"></div></div>
-    </div>
-    <div class="footer">Autosaves every 5 seconds • Your civilisation continues while you're away</div>
-  </main>
+    const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+    const clamp=THREE.MathUtils.clamp, lerp=THREE.MathUtils.lerp;
+    const scene=new THREE.Scene(), camera=new THREE.PerspectiveCamera(62,innerWidth/innerHeight,.1,1000);
+    const renderer=new THREE.WebGLRenderer({antialias:true,powerPreference:'high-performance'});
+    renderer.setSize(innerWidth,innerHeight); renderer.setPixelRatio(Math.min(devicePixelRatio,1.7)); renderer.shadowMap.enabled=true; renderer.shadowMap.type=THREE.PCFSoftShadowMap; renderer.outputColorSpace=THREE.SRGBColorSpace; renderer.toneMapping=THREE.ACESFilmicToneMapping; renderer.toneMappingExposure=1.05; document.body.prepend(renderer.domElement);
 
-  <aside class="panel right">
-    <h2>Development</h2>
-    <div class="tabs">
-      <button class="active" data-tab="build">BUILD</button><button data-tab="tech">TECH</button>
-    </div>
-    <div id="buildTab" class="shop"></div>
-    <div id="techTab" class="shop" style="display:none"></div>
-    <h2>Achievements</h2>
-    <div class="side-pad"><div class="ach" id="achievements"></div></div>
-  </aside>
-</div>
-<div class="toast" id="toast"></div>
+    const state={started:false,paused:false,mode:'regular',driving:false,money:750,fuel:70,energy:100,health:100,upgrade:0,weather:'sunny',timeMode:'normal',hour:9,cam:0,job:null,jobCount:0};
+    const keys={}, colliders=[], locations=[], lamps=[], windows=[]; let near=null, toastTimer=0, lightning=0;
+    const colors={road:0x18212b,sidewalk:0x66727a,grass:0x4d7658,cyan:0x35d8ff,pink:0xff4d9a};
 
-<script>
-const $=id=>document.getElementById(id);
-const fmt=n=>n>=1e12?(n/1e12).toFixed(2)+'T':n>=1e9?(n/1e9).toFixed(2)+'B':n>=1e6?(n/1e6).toFixed(2)+'M':n>=1e3?(n/1e3).toFixed(2)+'K':Math.floor(n).toLocaleString();
+    // Lighting, world and procedural geometry
+    const hemi=new THREE.HemisphereLight(0xaedaff,0x263626,2.0); scene.add(hemi);
+    const sun=new THREE.DirectionalLight(0xfff0cf,3.2); sun.position.set(90,130,40); sun.castShadow=true; sun.shadow.mapSize.set(2048,2048); sun.shadow.camera.left=-150;sun.shadow.camera.right=150;sun.shadow.camera.top=150;sun.shadow.camera.bottom=-150; scene.add(sun);
+    scene.fog=new THREE.FogExp2(0xa9d0df,.0026); scene.background=new THREE.Color(0x9acbe4);
+    const box=(w,h,d,c)=>{const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),new THREE.MeshStandardMaterial({color:c,roughness:.82}));m.castShadow=m.receiveShadow=true;return m};
+    const ground=box(620,.5,620,colors.grass); ground.position.y=-.3; scene.add(ground);
+    const roads=[];[-240,-160,-80,0,80,160,240].forEach(v=>{const a=box(620,.08,18,colors.road);a.position.set(0,.02,v);scene.add(a);roads.push(a);const b=box(18,.08,620,colors.road);b.position.set(v,.03,0);scene.add(b);roads.push(b)});
+    const markMat=new THREE.MeshBasicMaterial({color:0xf5e8a7});
+    for(let v=-240;v<=240;v+=80)for(let p=-295;p<=295;p+=16){let m=new THREE.Mesh(new THREE.BoxGeometry(6,.025,.25),markMat);m.position.set(p,.09,v);scene.add(m);m=new THREE.Mesh(new THREE.BoxGeometry(.25,.025,6),markMat);m.position.set(v,.1,p);scene.add(m)}
+    const seeded=n=>{let x=Math.sin(n*1234.567)*43758.5453;return x-Math.floor(x)};
+    const palette=[0x35566c,0x8b6575,0x526d60,0x8e765c,0x45516e,0x6c5477];
+    let seed=2;
+    for(let gx=-3;gx<3;gx++)for(let gz=-3;gz<3;gz++){
+      const cx=gx*80+40,cz=gz*80+40;if(Math.abs(cx)<30&&Math.abs(cz)<30)continue;
+      const suburban=Math.abs(cx)+Math.abs(cz)>280;
+      for(let i=0;i<(suburban?2:4);i++){
+        const w=suburban?24:20+seeded(seed++)*16,d=suburban?20:20+seeded(seed++)*18,h=suburban?8+seeded(seed++)*8:18+seeded(seed++)*62;
+        const x=cx+(i%2?20:-20),z=cz+(i>1?20:-20); if(Math.abs(x%80)<16||Math.abs(z%80)<16)continue;
+        const b=box(w,h,d,palette[Math.floor(seeded(seed++)*palette.length)]);b.position.set(x,h/2,z);scene.add(b);colliders.push({x,z,hx:w/2+.7,hz:d/2+.7});
+        const wm=new THREE.MeshStandardMaterial({color:0x7ec7d2,emissive:0xffcc77,emissiveIntensity:0});
+        for(let y=5;y<h-2;y+=7)for(const side of [-1,1]){const win=box(w*.58,2,.12,0xffffff);win.material=wm;win.position.set(x,y,z+side*(d/2+.07));scene.add(win)} windows.push(wm);
+        const roof=box(w*.45,.45,d*.45,0x25323c);roof.position.set(x,h+.25,z);scene.add(roof);
+      }
+    }
+    const tree=(x,z)=>{const g=new THREE.Group(),tr=box(1.2,5,1.2,0x513d2b);tr.position.y=2.5;g.add(tr);const crown=new THREE.Mesh(new THREE.IcosahedronGeometry(3.2,0),new THREE.MeshStandardMaterial({color:seeded(seed++)>.5?0x3d8054:0x5b8e48,roughness:1}));crown.position.y=6;crown.castShadow=true;g.add(crown);g.position.set(x,0,z);scene.add(g);colliders.push({x,z,hx:1.2,hz:1.2})};
+    for(let i=0;i<75;i++){let x=seeded(seed++)*560-280,z=seeded(seed++)*560-280;if(Math.abs((x+40)%80-40)>15&&Math.abs((z+40)%80-40)>15)tree(x,z)}
+    function lamp(x,z,rot=0){const g=new THREE.Group(),pole=box(.28,7,.28,0x28323b);pole.position.y=3.5;g.add(pole);const bulb=new THREE.Mesh(new THREE.SphereGeometry(.5,8,6),new THREE.MeshStandardMaterial({color:0xffe7a4,emissive:0xffc64d,emissiveIntensity:0}));bulb.position.y=7;g.add(bulb);g.position.set(x,0,z);g.rotation.y=rot;scene.add(g);lamps.push(bulb.material)}
+    for(let i=-240;i<=240;i+=40){lamp(i,12);lamp(i,-12);lamp(12,i);lamp(-12,i)}
+    const park=box(54,.15,54,0x5f925f);park.position.set(40,.05,40);scene.add(park);for(let i=0;i<9;i++)tree(20+(i%3)*18,20+Math.floor(i/3)*18);
+    const barrier=(x,z,w,d)=>{const b=box(w,1.3,d,0xf0e2c8);b.position.set(x,.65,z);scene.add(b);colliders.push({x,z,hx:w/2,hz:d/2})};barrier(-300,0,2,600);barrier(300,0,2,600);barrier(0,-300,600,2);barrier(0,300,600,2);
 
-const buildings=[
- {id:'extractor',icon:'⛏️',name:'Crystal Extractor',base:15,rate:0.3,desc:'Pulls quantum energy from the crust.'},
- {id:'farm',icon:'🧬',name:'Gene Farm',base:100,rate:1.8,desc:'Grows food and engineered life.'},
- {id:'reactor',icon:'⚛️',name:'Fusion Reactor',base:650,rate:9,desc:'Turns star matter into usable power.'},
- {id:'hive',icon:'🛸',name:'Orbital Hive',base:4200,rate:45,desc:'Thousands of drones work above the planet.'},
- {id:'portal',icon:'🌀',name:'Void Portal',base:28000,rate:250,desc:'Harvests energy from another dimension.'},
- {id:'dyson',icon:'☀️',name:'Dyson Swarm',base:180000,rate:1400,desc:'A civilisation-scale stellar project.'},
- {id:'megabrain',icon:'🧠',name:'Galactic Brain',base:1200000,rate:8000,desc:'Coordinates billions of minds at once.'}
-];
-const techs=[
- {id:'neural',name:'Neural Link',cost:800,desc:'+25% click power',effect:'click',mult:1.25},
- {id:'automation',name:'Autonomous Drones',cost:2500,desc:'+20% all production',effect:'prod',mult:1.2},
- {id:'terraform',name:'Terraforming',cost:9000,desc:'+50% all production',effect:'prod',mult:1.5},
- {id:'singularity',name:'Micro Singularity',cost:50000,desc:'Clicks produce 5x energy',effect:'click',mult:5},
- {id:'ascension',name:'Ascension Protocol',cost:300000,desc:'+100% all production',effect:'prod',mult:2}
-];
-const missions=[
- {id:'first',title:'A spark of civilisation',desc:'Reach 100 Energy',check:s=>s.energy>=100},
- {id:'workers',title:'Industrial revolution',desc:'Own 10 buildings',check:s=>Object.values(s.buildings).reduce((a,b)=>a+b,0)>=10},
- {id:'think',title:'We are becoming dangerous',desc:'Unlock 2 technologies',check:s=>s.techs.length>=2},
- {id:'colony',title:'Planetary civilisation',desc:'Reach Day 10',check:s=>s.day>=10},
- {id:'stars',title:'The stars are next',desc:'Reach 1,000,000 Energy',check:s=>s.total>=1e6}
-];
-const achievements=[
- ['👽','First Contact','Make your first click',s=>s.clicks>=1],
- ['⚡','Spark','Reach 1,000 total energy',s=>s.total>=1000],
- ['🏗️','Builder','Own 25 buildings',s=>Object.values(s.buildings).reduce((a,b)=>a+b,0)>=25],
- ['🔬','Scientist','Unlock 3 technologies',s=>s.techs.length>=3],
- ['🌙','Survivor','Reach Day 25',s=>s.day>=25],
- ['🌌','Cosmic','Reach 10,000,000 total energy',s=>s.total>=1e7]
-];
-let state={energy:0,total:0,clicks:0,day:1,buildings:{},techs:[],missions:[],achievements:[],last:Date.now(),started:Date.now()};
-buildings.forEach(b=>state.buildings[b.id]=0);
-let saveKey='alien_ascension_save_v1';
-try{const old=JSON.parse(localStorage.getItem(saveKey));if(old)state={...state,...old,buildings:{...state.buildings,...old.buildings}}}catch(e){}
+    // Locations and glowing world markers
+    const placeData=[
+      ['Job Hub','jobs',-80,-74,0x35d8ff],['Taxi Rank','taxi',0,-74,0xffd64f],['Parcel Depot','parcel',80,-74,0xe676ff],['BiteDash','food',160,-74,0xff765c],['Street Sprint','race',240,-74,0x45ff8c],['Office Shift','office',-160,-74,0xb4c8ff],
+      ['Fuel Station','fuel',-240,86,0x43e7b2],['Restaurant','restaurant',-160,86,0xff815d],['Cinema','cinema',-80,86,0xb97aff],['Arcade','arcade',0,86,0x43d9ff],['Gym','gym',80,86,0xff557a],['Garage','garage',160,86,0xffd35a],['Apartment','home',240,86,0x7ba4ff]
+    ];
+    const markerGeo=new THREE.CylinderGeometry(2.4,2.4,.18,24);
+    for(const [name,type,x,z,color] of placeData){const g=new THREE.Group();const disc=new THREE.Mesh(markerGeo,new THREE.MeshStandardMaterial({color,emissive:color,emissiveIntensity:1}));disc.position.y=.18;g.add(disc);const ring=new THREE.Mesh(new THREE.TorusGeometry(3,.14,8,30),new THREE.MeshBasicMaterial({color}));ring.rotation.x=Math.PI/2;ring.position.y=.55;g.add(ring);const beam=new THREE.Mesh(new THREE.CylinderGeometry(.09,.45,10,8,1,true),new THREE.MeshBasicMaterial({color,transparent:true,opacity:.3}));beam.position.y=5;g.add(beam);g.position.set(x,0,z);scene.add(g);locations.push({name,type,x,z,g,ring})}
+    const waypoint=new THREE.Group();const wring=new THREE.Mesh(new THREE.TorusGeometry(4,.35,10,40),new THREE.MeshBasicMaterial({color:colors.cyan}));wring.rotation.x=Math.PI/2;waypoint.add(wring);const wbeam=new THREE.Mesh(new THREE.CylinderGeometry(.2,1.2,18,10,1,true),new THREE.MeshBasicMaterial({color:colors.cyan,transparent:true,opacity:.27}));wbeam.position.y=9;waypoint.add(wbeam);waypoint.visible=false;scene.add(waypoint);
 
-function production(){
- let p=buildings.reduce((sum,b)=>sum+state.buildings[b.id]*b.rate,0);
- for(const t of techs.filter(t=>state.techs.includes(t.id))) if(t.effect==='prod')p*=t.mult;
- return p;
-}
-function clickPower(){
- let p=1;
- for(const t of techs.filter(t=>state.techs.includes(t.id)))if(t.effect==='click')p*=t.mult;
- return p;
-}
-function cost(b){return Math.floor(b.base*Math.pow(1.15,state.buildings[b.id]))}
-function era(){if(state.day<5)return'PRIMITIVE COLONY';if(state.day<15)return'INDUSTRIAL AGE';if(state.day<30)return'PLANETARY AGE';if(state.day<60)return'STELLAR AGE';return'GALACTIC CIVILISATION'}
-
-function render(){
- $('energy').textContent=fmt(state.energy);$('topEnergy').textContent=fmt(state.energy);
- $('topPop').textContent=fmt(100+Object.values(state.buildings).reduce((a,b)=>a+b,0)*12+state.day*5);
- $('topTech').textContent=state.techs.length;$rate.textContent='';
- $('rate').textContent='+'+fmt(production())+' / sec';$('day').textContent='DAY '+state.day;$('era').textContent=era();
- const elapsed=(Date.now()-state.last)%60000;$('dayBar').style.width=(elapsed/60000*100)+'%';
- $('dayTimer').textContent=Math.ceil((60000-elapsed)/1000)+' seconds';
- renderBuildings();renderTech();renderMissions();renderAchievements();renderLog();
-}
-function renderBuildings(){
- $('buildTab').innerHTML=buildings.map(b=>{
-  const c=cost(b),can=state.energy>=c;
-  return `<div class="item ${can?'':'locked'}" onclick="buy('${b.id}')">
-    <div class="icon">${b.icon}</div><div><h3>${b.name}</h3><p>${b.desc} +${b.rate}/sec each</p></div>
-    <div><div class="cost">⚡ ${fmt(c)}</div><div class="owned">x${state.buildings[b.id]}</div></div></div>`
- }).join('');
-}
-function renderTech(){
- $('techTab').innerHTML=techs.map(t=>{
-  const owned=state.techs.includes(t.id),can=state.energy>=t.cost&&!owned;
-  return `<div class="item ${owned?'':' '+(can?'':'locked')}" onclick="research('${t.id}')">
-   <div class="icon">${owned?'✓':'🔬'}</div><div><h3>${t.name}</h3><p>${t.desc}</p></div>
-   <div class="cost">${owned?'UNLOCKED':'⚡ '+fmt(t.cost)}</div></div>`
- }).join('');
-}
-function renderMissions(){
- $('missions').innerHTML=missions.map(m=>{
-  const done=state.missions.includes(m.id),ok=m.check(state);
-  if(ok&&!done){state.missions.push(m.id);toast('Mission complete: '+m.title);log('Mission complete — '+m.title)}
-  return `<div class="mission"><b>${done?'✓ ':''}${m.title}</b><small>${m.desc}</small></div>`
- }).join('');
-}
-function renderAchievements(){
- $('achievements').innerHTML=achievements.map(a=>{
-  const done=state.achievements.includes(a[0]);
-  if(a[3](state)&&!done)state.achievements.push(a[0]);
-  const on=state.achievements.includes(a[0]);
-  return `<div class="badge ${on?'on':''}" title="${a[1]}">${a[0]} ${on?a[1]:'???'}</div>`
- }).join('');
-}
-function log(t){
- let logs=JSON.parse(localStorage.getItem(saveKey+'_log')||'[]');logs.unshift('Day '+state.day+' — '+t);logs=logs.slice(0,8);
- localStorage.setItem(saveKey+'_log',JSON.stringify(logs));renderLog();
-}
-function renderLog(){let logs=JSON.parse(localStorage.getItem(saveKey+'_log')||'[]');$('log').innerHTML=logs.map(x=>'<div>'+x+'</div>').join('')||'<div>Your civilisation awakens...</div>'}
-function buy(id){
- const b=buildings.find(x=>x.id===id),c=cost(b);if(state.energy<c)return;
- state.energy-=c;state.buildings[id]++;toast(b.name+' constructed');log('Built '+b.name);save();render();
-}
-function research(id){
- const t=techs.find(x=>x.id===id);if(state.techs.includes(id)||state.energy<t.cost)return;
- state.energy-=t.cost;state.techs.push(id);toast(t.name+' researched');log('Researched '+t.name);save();render();
-}
-function toast(t){const x=$('toast');x.textContent=t;x.classList.add('show');clearTimeout(window._toast);window._toast=setTimeout(()=>x.classList.remove('show'),1800)}
-function save(){state.last=Date.now();localStorage.setItem(saveKey,JSON.stringify(state))}
-$('planet').onclick=e=>{
- const gain=clickPower();state.energy+=gain;state.total+=gain;state.clicks++;
- const f=document.createElement('div');f.className='float';f.textContent='+'+fmt(gain)+' ⚡';f.style.left=(e.clientX-$('.main').getBoundingClientRect().left)+'px';f.style.top=(e.clientY-$('.main').getBoundingClientRect().top)+'px';$('.main').appendChild(f);setTimeout(()=>f.remove(),900);
- render();
-};
-document.querySelectorAll('.tabs button').forEach(btn=>btn.onclick=()=>{
- document.querySelectorAll('.tabs button').forEach(x=>x.classList.remove('active'));btn.classList.add('active');
- $('buildTab').style.display=btn.dataset.tab==='build'?'grid':'none';$('techTab').style.display=btn.dataset.tab==='tech'?'grid':'none';
-});
-let previous=Date.now();
-setInterval(()=>{
- const now=Date.now(),dt=(now-previous)/1000;previous=now;
- state.energy+=production()*dt;state.total+=production()*dt;
- const newDay=Math.floor((now-state.started)/60000)+1;
- if(newDay>state.day){for(let d=state.day+1;d<=newDay;d++)log('Day '+d+' begins — the colony grows.');state.day=newDay}
- render();
-},250);
-setInterval(save,5000);
-render();
-</script>
-</body>
-</html>
+    // Player and arcade car
+    const player=new THREE.Group();const body=box(1.1,1.8,.65,0x3ad7ff);body.position.y=1.85;player.add(body);const head=new THREE.Mesh(new THREE.SphereGeometry(.48,12,8),new THREE.MeshStandardMaterial({color:0xf0b795}));head.position.y=3.15;head.castShadow=true;player.add(head);const leg1=box(.35,1.5,.38,0x17273b),leg2=leg1.clone();leg1.position.set(-.28,.75,0);leg2.position.set(.28,.75,0);player.add(leg1,leg2);player.position.set(-70,0,-70);scene.add(player);
+    const car=new THREE.Group(), carBody=box(3.5,1,6.5,0x29b9df);carBody.position.y=1.25;car.add(carBody);const cabin=box(2.8,1.1,3.1,0x17334b);cabin.position.set(0,2,0);car.add(cabin);const glassMat=new THREE.MeshStandardMaterial({color:0x5cc5e5,metalness:.2,roughness:.15});const windshield=box(2.5,.72,.12,0xffffff);windshield.material=glassMat;windshield.position.set(0,2.05,-1.62);windshield.rotation.x=-.2;car.add(windshield);const wheels=[];for(const x of [-1.75,1.75])for(const z of [-2.05,2.05]){const w=new THREE.Mesh(new THREE.CylinderGeometry(.72,.72,.48,14),new THREE.MeshStandardMaterial({color:0x11151a,roughness:1}));w.rotation.z=Math.PI/2;w.position.set(x,.72,z);w.castShadow=true;car.add(w);wheels.push(w)}const lights=[];for(const x of [-1.15,1.15]){const l=box(.55,.35,.15,0xfff1bd);l.material.emissive=new THREE.Color(0xffe29a);l.material.emissiveIntensity=1;l.position.set(x,1.25,-3.28);car.add(l);lights.push(l.material)}car.position.set(-80,0,-62);scene.add(car);
+    let speed=0,steer=0,carYaw=0,playerYaw=0;const clock=new THREE.Clock();
+    function blocked(x,z,r=1){if(Math.abs(x)>296-r||Math.abs(z)>296-r)return true;return colliders.some(c=>Math.abs(x-c.x)<c.hx+r&&Math.abs(z-c.z)<c.hz+r)}
