@@ -5,25 +5,397 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Download CharterShip, a cooperative ocean adventure.">
   <title>CharterShip — Set Sail Together</title>
-  <link rel="stylesheet" href="style.css">
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Mono&family=Playfair+Display:ital,wght@0,700;1,700&display=swap');
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      overflow-x: hidden;
+      min-height: 100vh;
+      color: #eef0dd;
+      font-family: "DM Mono", monospace;
+      background:
+        radial-gradient(circle at 76% 10%, #246471 0, transparent 31%),
+        radial-gradient(circle at 12% 73%, #164a5a 0, transparent 26%),
+        linear-gradient(145deg, #0d3040, #071823 70%);
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: .18;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent 0 7px,
+        #c5e4d222 8px 9px
+      );
+    }
+
+    main {
+      max-width: 1200px;
+      margin: auto;
+      padding: 26px 6vw;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 8vh;
+      font-size: 11px;
+      letter-spacing: .16em;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .brand {
+      display: flex;
+      gap: 9px;
+      align-items: center;
+      color: #f1c66f;
+      font-size: 17px;
+      font-weight: bold;
+    }
+
+    .brand i {
+      display: block;
+      width: 10px;
+      height: 10px;
+      border: 2px solid #65c7bd;
+      border-radius: 50%;
+      box-shadow: 0 0 0 4px #65c7bd22;
+    }
+
+    .nav-download {
+      color: #e7c069;
+      border-bottom: 1px solid #e7c069;
+      padding: 8px 0;
+    }
+
+    .hero {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 62vh;
+    }
+
+    .eyebrow {
+      margin: 0;
+      color: #e8bf69;
+      font-size: 11px;
+      letter-spacing: .14em;
+    }
+
+    .eyebrow span {
+      display: inline-block;
+      width: 20px;
+      height: 1px;
+      margin-right: 9px;
+      vertical-align: middle;
+      background: #65c7bd;
+    }
+
+    h1 {
+      position: relative;
+      z-index: 1;
+      margin: 22px 0 30px;
+      font-family: "Playfair Display", serif;
+      font-size: clamp(59px, 10vw, 126px);
+      line-height: .82;
+      letter-spacing: -.075em;
+    }
+
+    h1 em { color: #6ec8bf; }
+
+    .intro {
+      position: relative;
+      z-index: 1;
+      max-width: 510px;
+      color: #bdcfca;
+      font-size: 15px;
+      line-height: 1.85;
+    }
+
+    .download-row {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      gap: 18px;
+      align-items: center;
+    }
+
+    .button {
+      width: max-content;
+      margin-top: 24px;
+      padding: 18px 24px;
+      color: #102c39;
+      background: #efc670;
+      box-shadow: 5px 5px 0 #041018;
+      font-size: 12px;
+      font-weight: bold;
+      letter-spacing: .06em;
+      transition: .2s;
+    }
+
+    .button:hover {
+      background: #fff1b8;
+      box-shadow: 8px 8px 0 #041018;
+      transform: translate(-3px, -3px);
+    }
+
+    .button span {
+      margin-left: 10px;
+      font-size: 20px;
+    }
+
+    .meta {
+      margin-top: 25px;
+      color: #8ba7a5;
+      font-size: 10px;
+      line-height: 1.7;
+      letter-spacing: .08em;
+    }
+
+    .ship {
+      position: absolute;
+      top: 12%;
+      right: 2%;
+      width: 360px;
+      height: 350px;
+      opacity: .8;
+      filter: drop-shadow(0 20px 25px #03101899);
+      animation: rock 6s ease-in-out infinite;
+    }
+
+    .mast {
+      position: absolute;
+      top: 42px;
+      left: 180px;
+      width: 7px;
+      height: 210px;
+      background: #efc670;
+    }
+
+    .sail {
+      position: absolute;
+      top: 53px;
+      clip-path: polygon(0 0, 100% 88%, 0 100%);
+      background: #d6e3d7;
+    }
+
+    .sail-one {
+      left: 33px;
+      width: 145px;
+      height: 183px;
+    }
+
+    .sail-two {
+      top: 91px;
+      left: 188px;
+      width: 118px;
+      height: 143px;
+      background: #66b7b3;
+      transform: scaleX(-1);
+    }
+
+    .hull {
+      position: absolute;
+      top: 232px;
+      left: 57px;
+      width: 252px;
+      height: 67px;
+      background: #b9764c;
+      clip-path: polygon(0 0, 100% 0, 85% 75%, 22% 75%);
+    }
+
+    .wake {
+      position: absolute;
+      top: 280px;
+      left: 20px;
+      width: 320px;
+      height: 38px;
+      border-bottom: 2px solid #73d6ce;
+      border-radius: 50%;
+      opacity: .7;
+    }
+
+    @keyframes rock {
+      50% { transform: rotate(2deg) translateY(7px); }
+    }
+
+    .strip {
+      display: flex;
+      justify-content: space-between;
+      padding: 15px 0;
+      color: #7bd2c8;
+      border-top: 1px solid #4e7d80;
+      border-bottom: 1px solid #4e7d80;
+      font-size: 10px;
+      letter-spacing: .15em;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      margin-top: 6vh;
+    }
+
+    .features article {
+      margin-right: 25px;
+      padding: 28px 28px 15px 0;
+      border-right: 1px solid #37616a;
+    }
+
+    .features article:last-child { border: 0; }
+
+    b {
+      color: #e5b866;
+      font-size: 11px;
+    }
+
+    h2 {
+      margin: 12px 0;
+      font-family: "Playfair Display", serif;
+      font-size: 31px;
+    }
+
+    article p {
+      color: #a6bbb6;
+      font-size: 12px;
+      line-height: 1.8;
+    }
+
+    footer {
+      max-width: 1200px;
+      margin: auto;
+      padding: 34px 6vw;
+      color: #e5b866;
+      font-size: 11px;
+      letter-spacing: .12em;
+    }
+
+    footer span {
+      float: right;
+      color: #77908f;
+    }
+
+    @media (max-width: 760px) {
+      .ship {
+        top: 0;
+        right: -120px;
+        opacity: .24;
+      }
+
+      .features { grid-template-columns: 1fr; }
+
+      .features article {
+        margin: 0;
+        padding: 25px 0;
+        border-right: 0;
+        border-bottom: 1px solid #37616a;
+      }
+
+      .strip {
+        gap: 10px;
+        overflow: hidden;
+        font-size: 8px;
+      }
+
+      .download-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0;
+      }
+
+      .meta { margin-top: 8px; }
+      h1 { letter-spacing: -.06em; }
+    }
+  </style>
 </head>
+
 <body>
   <main>
-    <nav><a class="brand" href="#top"><i></i> CHARTERSHIP</a><a class="nav-download" href="#download">DOWNLOAD <span>↗</span></a></nav>
+    <nav>
+      <a class="brand" href="#top"><i></i> CHARTERSHIP</a>
+      <a class="nav-download" href="#download">DOWNLOAD ↗</a>
+    </nav>
+
     <section class="hero" id="top">
-      <div class="ship" aria-hidden="true"><div class="mast"></div><div class="sail sail-one"></div><div class="sail sail-two"></div><div class="hull"></div><div class="wake"></div></div>
+      <div class="ship">
+        <div class="mast"></div>
+        <div class="sail sail-one"></div>
+        <div class="sail sail-two"></div>
+        <div class="hull"></div>
+        <div class="wake"></div>
+      </div>
+
       <p class="eyebrow"><span></span> COOPERATIVE OCEAN ADVENTURE</p>
+
       <h1>Set sail.<br><em>Make your mark.</em></h1>
-      <p class="intro">A stylised survival adventure about uncharted islands, dangerous seas, ship upgrades and the friends you bring aboard.</p>
-      <div class="download-row"><a class="button" id="download" href="https://github.com/qlovaa/Website/releases/latest/download/CharterShip.zip">DOWNLOAD FOR WINDOWS <span>↓</span></a><p class="meta">FREE · WINDOWS<br>VERSION 1.0.0</p></div>
+
+      <p class="intro">
+        A stylised survival adventure about uncharted islands,
+        dangerous seas, ship upgrades and the friends you bring aboard.
+      </p>
+
+      <div class="download-row">
+        <a
+          class="button"
+          id="download"
+          href="https://github.com/qlovaa/Website/releases/latest/download/CharterShip.zip"
+        >
+          DOWNLOAD FOR WINDOWS <span>↓</span>
+        </a>
+
+        <p class="meta">
+          FREE · WINDOWS<br>
+          VERSION 1.0.0
+        </p>
+      </div>
     </section>
-    <section class="strip"><span>EXPLORE</span><span>CRAFT</span><span>SAIL</span><span>SURVIVE</span><span>TOGETHER</span></section>
+
+    <section class="strip">
+      <span>EXPLORE</span>
+      <span>CRAFT</span>
+      <span>SAIL</span>
+      <span>SURVIVE</span>
+      <span>TOGETHER</span>
+    </section>
+
     <section class="features">
-      <article><b>01</b><h2>Explore</h2><p>Discover islands, shipwrecks, ruins and treasure beneath a changing sky.</p></article>
-      <article><b>02</b><h2>Survive</h2><p>Fish, craft, upgrade your ship and keep your crew supplied.</p></article>
-      <article><b>03</b><h2>Adventure together</h2><p>Host a world, invite friends, sail together and face the sea as a crew.</p></article>
+      <article>
+        <b>01</b>
+        <h2>Explore</h2>
+        <p>Discover islands, shipwrecks, ruins and treasure beneath a changing sky.</p>
+      </article>
+
+      <article>
+        <b>02</b>
+        <h2>Survive</h2>
+        <p>Fish, craft, upgrade your ship and keep your crew supplied.</p>
+      </article>
+
+      <article>
+        <b>03</b>
+        <h2>Adventure together</h2>
+        <p>Host a world, invite friends, sail together and face the sea as a crew.</p>
+      </article>
     </section>
   </main>
-  <footer>CHARTERSHIP <span>© 2026 · MADE FOR THE HORIZON</span></footer>
+
+  <footer>
+    CHARTERSHIP
+    <span>© 2026 · MADE FOR THE HORIZON</span>
+  </footer>
 </body>
 </html>
