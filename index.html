@@ -1,22 +1,20 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Software Downloads</title>
+    <title>Your Software - Downloads</title>
 
     <style>
         :root {
-            --bg: #f5f6f8;
+            --background: #f5f6f8;
             --surface: #ffffff;
             --border: #e1e4e8;
             --text: #17191c;
             --muted: #6b7280;
             --accent: #2563eb;
             --accent-hover: #1d4ed8;
-            --dark: #111827;
         }
 
         * {
@@ -25,33 +23,30 @@
             padding: 0;
         }
 
-        body {
-            font-family:
-                -apple-system,
-                BlinkMacSystemFont,
-                "Segoe UI",
-                Roboto,
-                Helvetica,
-                Arial,
-                sans-serif;
+        html {
+            scroll-behavior: smooth;
+        }
 
-            background: var(--bg);
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+                Roboto, Helvetica, Arial, sans-serif;
+            background: var(--background);
             color: var(--text);
             line-height: 1.5;
         }
 
-        /* Header */
+        /* HEADER */
 
         header {
             height: 64px;
-            background: #fff;
+            background: #ffffff;
             border-bottom: 1px solid var(--border);
         }
 
         .header-inner {
             max-width: 1180px;
             height: 100%;
-            margin: auto;
+            margin: 0 auto;
             padding: 0 24px;
 
             display: flex;
@@ -60,15 +55,15 @@
         }
 
         .brand {
-            font-size: 18px;
-            font-weight: 650;
             color: var(--text);
             text-decoration: none;
-            letter-spacing: -0.2px;
+            font-size: 18px;
+            font-weight: 650;
         }
 
         nav {
             display: flex;
+            align-items: center;
             gap: 26px;
         }
 
@@ -82,24 +77,24 @@
             color: var(--text);
         }
 
-        /* Main */
+        /* MAIN */
 
         main {
             max-width: 1180px;
-            margin: auto;
+            margin: 0 auto;
             padding: 60px 24px 90px;
         }
 
         .page-heading {
-            max-width: 700px;
+            max-width: 720px;
             margin-bottom: 42px;
         }
 
         .page-heading h1 {
+            margin-bottom: 10px;
             font-size: 36px;
             font-weight: 650;
             letter-spacing: -1px;
-            margin-bottom: 10px;
         }
 
         .page-heading p {
@@ -107,7 +102,7 @@
             font-size: 16px;
         }
 
-        /* Download list */
+        /* SOFTWARE LIST */
 
         .software-list {
             display: flex;
@@ -119,7 +114,6 @@
             background: var(--surface);
             border: 1px solid var(--border);
             border-radius: 8px;
-
             padding: 24px;
 
             display: flex;
@@ -139,7 +133,6 @@
         .software-icon {
             width: 56px;
             height: 56px;
-
             flex: 0 0 56px;
 
             border-radius: 10px;
@@ -158,15 +151,15 @@
         }
 
         .software-name {
+            margin-bottom: 4px;
             font-size: 17px;
             font-weight: 600;
-            margin-bottom: 4px;
         }
 
         .software-description {
+            margin-bottom: 8px;
             color: var(--muted);
             font-size: 14px;
-            margin-bottom: 8px;
         }
 
         .software-meta {
@@ -184,26 +177,26 @@
             color: #c2c6cc;
         }
 
+        /* DOWNLOAD BUTTON */
+
         .download-button {
             flex: 0 0 auto;
+
+            min-width: 108px;
+            height: 38px;
+            padding: 0 16px;
 
             display: inline-flex;
             align-items: center;
             justify-content: center;
 
-            min-width: 108px;
-            height: 38px;
-
-            padding: 0 16px;
+            border-radius: 6px;
 
             background: var(--accent);
-            color: white;
-
-            border-radius: 6px;
+            color: #ffffff;
 
             font-size: 14px;
             font-weight: 550;
-
             text-decoration: none;
 
             transition: background 0.15s ease;
@@ -220,11 +213,10 @@
             pointer-events: none;
         }
 
-        /* Information */
+        /* INFORMATION */
 
         .information {
             margin-top: 45px;
-
             padding-top: 25px;
 
             border-top: 1px solid var(--border);
@@ -234,31 +226,34 @@
         }
 
         .information strong {
+            display: block;
+            margin-bottom: 4px;
+
             color: #424852;
             font-weight: 600;
         }
 
-        /* Footer */
+        /* FOOTER */
 
         footer {
+            background: #ffffff;
             border-top: 1px solid var(--border);
-            background: #fff;
         }
 
         .footer-inner {
             max-width: 1180px;
-            margin: auto;
+            margin: 0 auto;
             padding: 25px 24px;
 
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: space-between;
 
             color: #7a8089;
             font-size: 12px;
         }
 
-        /* Mobile */
+        /* TABLET */
 
         @media (max-width: 700px) {
 
@@ -278,6 +273,8 @@
                 align-self: center;
             }
         }
+
+        /* MOBILE */
 
         @media (max-width: 560px) {
 
@@ -312,175 +309,233 @@
 
 <body>
 
-<header>
-    <div class="header-inner">
+    <!-- HEADER -->
 
-        <a href="#" class="brand">
-            Your Software
-        </a>
+    <header>
+        <div class="header-inner">
 
-        <nav>
-            <a href="#downloads">Downloads</a>
-            <a href="#information">Information</a>
-        </nav>
-
-    </div>
-</header>
-
-
-<main>
-
-    <div class="page-heading">
-        <h1>Downloads</h1>
-
-        <p>
-            Download the latest versions of our Windows applications.
-            All applications run locally on your computer.
-        </p>
-    </div>
-
-
-    <section class="software-list" id="downloads">
-
-
-        <!-- Voice Captioner -->
-
-        <article class="software">
-
-            <div class="software-icon">
-                🎙
-            </div>
-
-            <div class="software-info">
-
-                <div class="software-name">
-                    Voice Captioner
-                </div>
-
-                <div class="software-description">
-                    Generate captions from audio and video locally.
-                </div>
-
-                <div class="software-meta">
-                    <span>Windows</span>
-                    <span>Offline</span>
-                    <span>ZIP</span>
-                </div>
-
-            </div>
-
-            <a
-                class="download-button"
-                href="https://www.mediafire.com/file/nmyzd2jetgqkawg/Voice-Captioner-Offline-Windows.zip/file"
-                target="_blank"
-                rel="noopener noreferrer"
-            >
-                Download
+            <a href="#" class="brand">
+                Your Software
             </a>
 
-        </article>
+            <nav>
+                <a href="#downloads">Downloads</a>
+                <a href="#information">Information</a>
+            </nav>
+
+        </div>
+    </header>
 
 
-        <!-- YouTube Downloader -->
+    <!-- MAIN CONTENT -->
 
-        <article class="software">
+    <main>
 
-            <div class="software-icon">
-                ↓
-            </div>
+        <!-- PAGE TITLE -->
 
-            <div class="software-info">
+        <section class="page-heading">
 
-                <div class="software-name">
-                    YouTube to MP4 Downloader
+            <h1>
+                Downloads
+            </h1>
+
+            <p>
+                Download the latest versions of our Windows applications.
+                All applications run locally on your computer.
+            </p>
+
+        </section>
+
+
+        <!-- SOFTWARE -->
+
+        <section class="software-list" id="downloads">
+
+
+            <!-- VOICE CAPTIONER -->
+
+            <article class="software">
+
+                <div class="software-icon">
+                    🎙
                 </div>
 
-                <div class="software-description">
-                    Download videos as MP4 files using the Windows application.
+                <div class="software-info">
+
+                    <div class="software-name">
+                        Voice Captioner
+                    </div>
+
+                    <div class="software-description">
+                        Generate captions from audio and video locally.
+                    </div>
+
+                    <div class="software-meta">
+
+                        <span>
+                            Windows
+                        </span>
+
+                        <span>
+                            Offline
+                        </span>
+
+                        <span>
+                            ZIP
+                        </span>
+
+                    </div>
+
                 </div>
 
-                <div class="software-meta">
-                    <span>Windows</span>
-                    <span>Local processing</span>
-                    <span>Coming soon</span>
+                <a
+                    class="download-button"
+                    href="https://www.mediafire.com/file/nmyzd2jetgqkawg/Voice-Captioner-Offline-Windows.zip/file"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    Download
+                </a>
+
+            </article>
+
+
+            <!-- YOUTUBE TO MP4 DOWNLOADER -->
+
+            <article class="software">
+
+                <div class="software-icon">
+                    ↓
                 </div>
 
-            </div>
+                <div class="software-info">
 
-            <a class="download-button disabled">
-                Coming soon
-            </a>
+                    <div class="software-name">
+                        YouTube to MP4 Downloader
+                    </div>
 
-        </article>
+                    <div class="software-description">
+                        Download videos as MP4 files using the Windows application.
+                    </div>
 
+                    <div class="software-meta">
 
-        <!-- Caption Remover -->
+                        <span>
+                            Windows
+                        </span>
 
-        <article class="software">
+                        <span>
+                            Local processing
+                        </span>
 
-            <div class="software-icon">
-                ✂
-            </div>
+                        <span>
+                            Coming soon
+                        </span>
 
-            <div class="software-info">
+                    </div>
 
-                <div class="software-name">
-                    Auto Caption Remover
                 </div>
 
-                <div class="software-description">
-                    Remove captions from video files locally on Windows.
+                <a
+                    class="download-button disabled"
+                    href="#"
+                >
+                    Coming soon
+                </a>
+
+            </article>
+
+
+            <!-- AUTO CAPTION REMOVER -->
+
+            <article class="software">
+
+                <div class="software-icon">
+                    ✂
                 </div>
 
-                <div class="software-meta">
-                    <span>Windows</span>
-                    <span>Offline</span>
-                    <span>Coming soon</span>
+                <div class="software-info">
+
+                    <div class="software-name">
+                        Auto Caption Remover
+                    </div>
+
+                    <div class="software-description">
+                        Remove captions from video files locally on Windows.
+                    </div>
+
+                    <div class="software-meta">
+
+                        <span>
+                            Windows
+                        </span>
+
+                        <span>
+                            Offline
+                        </span>
+
+                        <span>
+                            Coming soon
+                        </span>
+
+                    </div>
+
                 </div>
 
-            </div>
+                <a
+                    class="download-button disabled"
+                    href="#"
+                >
+                    Coming soon
+                </a>
 
-            <a class="download-button disabled">
-                Coming soon
-            </a>
-
-        </article>
-
-
-    </section>
+            </article>
 
 
-    <section class="information" id="information">
-
-        <strong>About these applications</strong>
-
-        <p>
-            The applications listed above are standalone Windows software.
-            The website is only used to provide downloads. Files are processed
-            locally by the applications and are not processed by this website.
-        </p>
-
-    </section>
-
-</main>
+        </section>
 
 
-<footer>
+        <!-- INFORMATION -->
 
-    <div class="footer-inner">
+        <section
+            class="information"
+            id="information"
+        >
 
-        <span>
-            © 2026 Your Software
-        </span>
+            <strong>
+                About these applications
+            </strong>
 
-        <span>
-            Windows applications
-        </span>
+            <p>
+                The applications listed above are standalone Windows software.
+                This website is only used to provide downloads. Files are
+                processed locally by the applications and are not processed
+                by this website.
+            </p>
 
-    </div>
+        </section>
 
-</footer>
+    </main>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <div class="footer-inner">
+
+            <span>
+                © 2026 Your Software
+            </span>
+
+            <span>
+                Windows applications
+            </span>
+
+        </div>
+
+    </footer>
+
 
 </body>
 </html>
-```
