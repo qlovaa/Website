@@ -1,12 +1,333 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Hell!</title>
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
-      <h1 class="title">Welcome to Hell!</h1>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome to Hell</title>
+  <meta name="description" content="Welcome to Hell — a fiery red-themed experience.">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Inter:wght@400;600;800&display=swap');
 
-      <script src="script.js"></script>
-  </body>
+    :root {
+      --red: #ff1a1a;
+      --deep-red: #8b0000;
+      --dark: #070000;
+      --panel: rgba(35, 0, 0, .72);
+      --text: #fff4f0;
+      --muted: #d49b91;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      min-height: 100vh;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 50% 110%, rgba(255, 30, 0, .55), transparent 38%),
+        radial-gradient(circle at 10% 20%, rgba(180, 0, 0, .22), transparent 30%),
+        linear-gradient(180deg, #120000 0%, #050000 48%, #090000 100%);
+      font-family: Inter, sans-serif;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: .18;
+      background-image:
+        radial-gradient(#ff3a21 1px, transparent 1px),
+        radial-gradient(#ff8b65 1px, transparent 1px);
+      background-size: 70px 70px, 110px 110px;
+      background-position: 0 0, 30px 40px;
+      animation: drift 18s linear infinite;
+    }
+
+    @keyframes drift {
+      to { background-position: 70px 140px, 140px 0; }
+    }
+
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 10;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 6vw;
+      background: rgba(5,0,0,.72);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,40,20,.18);
+    }
+
+    .brand {
+      color: #fff;
+      font-family: Cinzel, serif;
+      font-weight: 900;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    nav a {
+      color: #e9c8c1;
+      text-decoration: none;
+      margin-left: 28px;
+      font-size: .9rem;
+      transition: .2s;
+    }
+
+    nav a:hover { color: #fff; text-shadow: 0 0 12px var(--red); }
+
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 130px 24px 80px;
+      position: relative;
+    }
+
+    .hero-inner { max-width: 900px; }
+
+    .eyebrow {
+      color: #ff806d;
+      font-weight: 800;
+      letter-spacing: 6px;
+      text-transform: uppercase;
+      font-size: .8rem;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-family: Cinzel, serif;
+      font-size: clamp(4rem, 12vw, 9.5rem);
+      line-height: .85;
+      text-transform: uppercase;
+      letter-spacing: -5px;
+      text-shadow:
+        0 0 8px rgba(255, 30, 0, .9),
+        0 0 35px rgba(255, 0, 0, .65),
+        0 12px 45px rgba(0,0,0,.9);
+    }
+
+    .subtitle {
+      max-width: 620px;
+      margin: 30px auto;
+      color: var(--muted);
+      font-size: 1.1rem;
+      line-height: 1.8;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 14px 24px;
+      border-radius: 5px;
+      border: 1px solid #a50c00;
+      text-decoration: none;
+      color: white;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: .8rem;
+      transition: transform .2s, box-shadow .2s, background .2s;
+    }
+
+    .btn.primary {
+      background: linear-gradient(135deg, #ff2918, #9b0000);
+      box-shadow: 0 0 25px rgba(255,20,0,.28);
+    }
+
+    .btn.secondary { background: rgba(80,0,0,.35); }
+
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 35px rgba(255,20,0,.25);
+    }
+
+    .flame {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 160px;
+      opacity: .6;
+      background:
+        radial-gradient(ellipse at 10% 100%, #ff3b0a 0 7%, transparent 18%),
+        radial-gradient(ellipse at 30% 100%, #ff1600 0 10%, transparent 22%),
+        radial-gradient(ellipse at 52% 100%, #ff4a12 0 8%, transparent 20%),
+        radial-gradient(ellipse at 72% 100%, #d40000 0 11%, transparent 23%),
+        radial-gradient(ellipse at 92% 100%, #ff2b00 0 9%, transparent 21%);
+      filter: blur(8px);
+      animation: flames 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes flames {
+      from { transform: scaleY(.9); filter: blur(10px); }
+      to { transform: scaleY(1.1); filter: blur(5px); }
+    }
+
+    section {
+      position: relative;
+      padding: 100px 7vw;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .section-title {
+      font-family: Cinzel, serif;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      margin-bottom: 14px;
+    }
+
+    .section-copy {
+      color: var(--muted);
+      max-width: 700px;
+      line-height: 1.8;
+      margin-bottom: 35px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .card {
+      padding: 30px;
+      min-height: 220px;
+      background: linear-gradient(145deg, rgba(74,0,0,.65), rgba(20,0,0,.72));
+      border: 1px solid rgba(255,45,20,.2);
+      border-radius: 12px;
+      box-shadow: inset 0 1px rgba(255,255,255,.03), 0 20px 60px rgba(0,0,0,.25);
+      transition: transform .25s, border-color .25s;
+    }
+
+    .card:hover {
+      transform: translateY(-7px);
+      border-color: rgba(255,45,20,.55);
+    }
+
+    .icon { font-size: 2rem; margin-bottom: 18px; }
+
+    .card h3 {
+      font-family: Cinzel, serif;
+      font-size: 1.25rem;
+      margin-bottom: 12px;
+    }
+
+    .card p {
+      color: #cba49c;
+      line-height: 1.7;
+      font-size: .95rem;
+    }
+
+    .quote {
+      margin: 30px 0;
+      padding: 35px;
+      border-left: 3px solid var(--red);
+      background: rgba(60,0,0,.35);
+      font-family: Cinzel, serif;
+      font-size: clamp(1.3rem, 3vw, 2rem);
+      line-height: 1.5;
+    }
+
+    footer {
+      text-align: center;
+      padding: 45px 20px;
+      color: #80534d;
+      border-top: 1px solid rgba(255,40,20,.12);
+      font-size: .85rem;
+    }
+
+    @media (max-width: 760px) {
+      nav { padding: 16px 20px; }
+      nav .links { display: none; }
+      .cards { grid-template-columns: 1fr; }
+      h1 { letter-spacing: -2px; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="brand">Inferno</div>
+    <div class="links">
+      <a href="#about">About</a>
+      <a href="#realms">Realms</a>
+      <a href="#enter">Enter</a>
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero" id="enter">
+      <div class="hero-inner">
+        <div class="eyebrow">Abandon all expectations</div>
+        <h1>Welcome<br>to Hell</h1>
+        <p class="subtitle">
+          A dark, fiery corner of the web. Turn down the lights, embrace the crimson glow,
+          and step beyond the gates.
+        </p>
+        <div class="buttons">
+          <a class="btn primary" href="#realms">Enter the Inferno</a>
+          <a class="btn secondary" href="#about">Learn More</a>
+        </div>
+      </div>
+      <div class="flame"></div>
+    </section>
+
+    <section id="about">
+      <div class="eyebrow">The gates are open</div>
+      <h2 class="section-title">There is no turning back.</h2>
+      <p class="section-copy">
+        Welcome to a fictional underworld built from shadows, embers, and crimson light.
+        Explore the realms below and discover what waits beyond the gates.
+      </p>
+      <div class="quote">
+        “The deeper you go, the brighter the flames become.”
+      </div>
+    </section>
+
+    <section id="realms">
+      <div class="eyebrow">Explore the depths</div>
+      <h2 class="section-title">The Seven Realms</h2>
+      <p class="section-copy">
+        Choose your path carefully. Every realm has its own atmosphere, secrets, and dangers.
+      </p>
+
+      <div class="cards">
+        <article class="card">
+          <div class="icon">🔥</div>
+          <h3>The Inferno</h3>
+          <p>Endless fire, blackened skies, and rivers of glowing ember stretching beyond the horizon.</p>
+        </article>
+
+        <article class="card">
+          <div class="icon">💀</div>
+          <h3>The Catacombs</h3>
+          <p>A silent maze beneath the earth where ancient doors hide things better left undiscovered.</p>
+        </article>
+
+        <article class="card">
+          <div class="icon">🌋</div>
+          <h3>The Abyss</h3>
+          <p>Stand at the edge of the unknown and stare into a darkness deeper than the flames above.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    © 2026 Inferno — Welcome to Hell.
+  </footer>
+</body>
 </html>
