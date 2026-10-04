@@ -10,6 +10,10 @@
       box-sizing: border-box;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       margin: 0;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
@@ -52,6 +56,10 @@
       gap: 28px;
       color: #6b7280;
       font-size: 14px;
+    }
+
+    nav a {
+      transition: color 0.15s ease;
     }
 
     nav a:hover {
@@ -170,13 +178,6 @@
       border-color: #1d4ed8;
     }
 
-    .download-button.disabled {
-      background: #f1f3f5;
-      color: #9ca3af;
-      border-color: #e1e4e8;
-      cursor: not-allowed;
-    }
-
     .instructions {
       margin-top: 34px;
       background: #ffffff;
@@ -239,7 +240,8 @@
       line-height: 1.55;
     }
 
-    .instruction code {
+    .instruction code,
+    .information code {
       padding: 2px 5px;
       border-radius: 4px;
       background: #f1f3f5;
@@ -372,23 +374,33 @@
     </div>
   </header>
 
+
   <main>
 
+    <!-- Downloads -->
     <section id="downloads">
+
       <div class="page-heading">
         <h1>Downloads</h1>
+
         <p>
           Download the latest versions of our Windows applications.
           All applications run locally on your computer.
         </p>
       </div>
 
+
       <div class="downloads">
 
+        <!-- Voice Captioner -->
         <article class="app-card">
-          <div class="app-icon">🎙</div>
+
+          <div class="app-icon">
+            🎙
+          </div>
 
           <div class="app-content">
+
             <h2>Voice Captioner</h2>
 
             <p>
@@ -400,6 +412,7 @@
               <span>Offline</span>
               <span>ZIP</span>
             </div>
+
           </div>
 
           <a
@@ -410,13 +423,19 @@
           >
             Download
           </a>
+
         </article>
 
 
+        <!-- YouTube Downloader -->
         <article class="app-card">
-          <div class="app-icon">↓</div>
+
+          <div class="app-icon">
+            ↓
+          </div>
 
           <div class="app-content">
+
             <h2>YouTube to MP4 Downloader</h2>
 
             <p>
@@ -428,6 +447,7 @@
               <span>Portable</span>
               <span>ZIP</span>
             </div>
+
           </div>
 
           <a
@@ -438,13 +458,19 @@
           >
             Download
           </a>
+
         </article>
 
 
+        <!-- Auto Caption Remover -->
         <article class="app-card">
-          <div class="app-icon">✂</div>
+
+          <div class="app-icon">
+            ✂
+          </div>
 
           <div class="app-content">
+
             <h2>Auto Caption Remover</h2>
 
             <p>
@@ -454,120 +480,181 @@
             <div class="meta">
               <span>Windows</span>
               <span>Offline</span>
-              <span>Coming soon</span>
+              <span>ZIP</span>
             </div>
+
           </div>
 
-          <span class="download-button disabled">
-            Coming soon
-          </span>
+          <a
+            class="download-button"
+            href="https://www.mediafire.com/file/jmnk4ad46drudzn/Caption-Remover-Models-Portable-Windows.zip/file"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Download
+          </a>
+
         </article>
 
       </div>
+
     </section>
 
 
+    <!-- Instructions -->
     <section id="instructions" class="instructions">
+
       <div class="section-heading">
+
         <h2>How to run the applications</h2>
 
         <p>
-          The applications are portable and can be started directly from the
-          extracted folder. No installation wizard is required.
+          The applications are portable and can be started directly from
+          the extracted folder. No installation wizard is required.
         </p>
+
       </div>
+
 
       <div class="instruction-list">
 
+        <!-- Step 1 -->
         <div class="instruction">
-          <span class="step">1</span>
+
+          <span class="step">
+            1
+          </span>
 
           <div>
+
             <h3>Download the ZIP</h3>
 
             <p>
               Click the download button above and download the application ZIP file.
             </p>
+
           </div>
+
         </div>
 
 
+        <!-- Step 2 -->
         <div class="instruction">
-          <span class="step">2</span>
+
+          <span class="step">
+            2
+          </span>
 
           <div>
+
             <h3>Extract the ZIP</h3>
 
             <p>
               Right-click the downloaded ZIP file and select
               <strong>Extract All</strong>.
             </p>
+
           </div>
+
         </div>
 
 
+        <!-- Step 3 -->
         <div class="instruction">
-          <span class="step">3</span>
+
+          <span class="step">
+            3
+          </span>
 
           <div>
+
             <h3>Open the extracted folder</h3>
 
             <p>
               Open the folder created after extracting the ZIP file.
             </p>
+
           </div>
+
         </div>
 
 
+        <!-- Step 4 -->
         <div class="instruction">
-          <span class="step">4</span>
+
+          <span class="step">
+            4
+          </span>
 
           <div>
+
             <h3>Find Start.bat</h3>
 
             <p>
               Inside the application folder, find the file named
               <code>Start.bat</code>.
             </p>
+
           </div>
+
         </div>
 
 
+        <!-- Step 5 -->
         <div class="instruction">
-          <span class="step">5</span>
+
+          <span class="step">
+            5
+          </span>
 
           <div>
+
             <h3>Run the application</h3>
 
             <p>
               Double-click <code>Start.bat</code> to launch the application.
             </p>
+
           </div>
+
         </div>
 
       </div>
+
     </section>
 
 
+    <!-- Information -->
     <section id="information" class="information">
+
       <h2>Information</h2>
 
       <p>
-        These are standalone Windows applications designed to run locally on
-        your computer. Download the application, extract the ZIP archive, and
-        use the included <code>Start.bat</code> file to launch it. The
-        applications do not require a traditional installation process.
+        These are standalone Windows applications designed to run locally
+        on your computer. Download the application, extract the ZIP archive,
+        and use the included <code>Start.bat</code> file to launch it.
+        The applications do not require a traditional installation process.
       </p>
+
     </section>
 
   </main>
 
 
   <footer>
+
     <div class="footer-inner">
-      <span>© 2026 Your Software</span>
-      <span>Windows applications</span>
+
+      <span>
+        © 2026 Your Software
+      </span>
+
+      <span>
+        Windows applications
+      </span>
+
     </div>
+
   </footer>
 
 </body>
