@@ -1,491 +1,574 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Software - Windows Applications</title>
 
-    <title>Your Software - Downloads</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-    <style>
-        :root {
-            --background: #f5f6f8;
-            --surface: #ffffff;
-            --border: #e1e4e8;
-            --text: #17191c;
-            --muted: #6b7280;
-            --accent: #2563eb;
-            --accent-hover: #1d4ed8;
-        }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      background: #f5f6f8;
+      color: #17191c;
+    }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
 
-        html {
-            scroll-behavior: smooth;
-        }
+    header {
+      height: 64px;
+      background: #ffffff;
+      border-bottom: 1px solid #e1e4e8;
+      display: flex;
+      align-items: center;
+    }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
-                Roboto, Helvetica, Arial, sans-serif;
-            background: var(--background);
-            color: var(--text);
-            line-height: 1.5;
-        }
+    .header-inner {
+      width: 100%;
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
 
-        header {
-            height: 64px;
-            background: #ffffff;
-            border-bottom: 1px solid var(--border);
-        }
+    .brand {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.2px;
+    }
 
-        .header-inner {
-            max-width: 1180px;
-            height: 100%;
-            margin: 0 auto;
-            padding: 0 24px;
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      color: #6b7280;
+      font-size: 14px;
+    }
 
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
+    nav a:hover {
+      color: #17191c;
+    }
 
-        .brand {
-            color: var(--text);
-            text-decoration: none;
-            font-size: 18px;
-            font-weight: 650;
-        }
+    main {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 52px 24px 70px;
+    }
 
-        nav {
-            display: flex;
-            align-items: center;
-            gap: 26px;
-        }
+    .page-heading {
+      margin-bottom: 28px;
+    }
 
-        nav a {
-            color: #555d68;
-            text-decoration: none;
-            font-size: 14px;
-        }
+    .page-heading h1 {
+      margin: 0;
+      font-size: 32px;
+      line-height: 1.2;
+      letter-spacing: -0.7px;
+      font-weight: 700;
+    }
 
-        nav a:hover {
-            color: var(--text);
-        }
+    .page-heading p {
+      margin: 9px 0 0;
+      color: #6b7280;
+      font-size: 15px;
+      line-height: 1.6;
+      max-width: 700px;
+    }
 
-        main {
-            max-width: 1180px;
-            margin: 0 auto;
-            padding: 60px 24px 90px;
-        }
+    .downloads {
+      display: grid;
+      gap: 14px;
+    }
 
-        .page-heading {
-            max-width: 720px;
-            margin-bottom: 42px;
-        }
+    .app-card {
+      background: #ffffff;
+      border: 1px solid #e1e4e8;
+      border-radius: 8px;
+      padding: 22px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
 
-        .page-heading h1 {
-            margin-bottom: 10px;
-            font-size: 36px;
-            font-weight: 650;
-            letter-spacing: -1px;
-        }
+    .app-card:hover {
+      border-color: #cbd0d6;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    }
 
-        .page-heading p {
-            color: var(--muted);
-            font-size: 16px;
-        }
+    .app-icon {
+      width: 52px;
+      height: 52px;
+      flex: 0 0 52px;
+      border-radius: 9px;
+      background: #f1f3f5;
+      border: 1px solid #e1e4e8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+    }
 
-        .software-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
+    .app-content {
+      min-width: 0;
+      flex: 1;
+    }
 
-        .software {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 24px;
+    .app-content h2 {
+      margin: 0;
+      font-size: 17px;
+      font-weight: 650;
+    }
 
-            display: flex;
-            align-items: center;
-            gap: 20px;
+    .app-content p {
+      margin: 5px 0 11px;
+      color: #6b7280;
+      font-size: 14px;
+      line-height: 1.5;
+    }
 
-            transition:
-                border-color 0.15s ease,
-                box-shadow 0.15s ease;
-        }
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
 
-        .software:hover {
-            border-color: #cbd0d8;
-            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.04);
-        }
+    .meta span {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 8px;
+      border-radius: 4px;
+      background: #f1f3f5;
+      color: #5f6670;
+      font-size: 12px;
+      border: 1px solid #e5e7eb;
+    }
 
-        .software-icon {
-            width: 56px;
-            height: 56px;
-            flex: 0 0 56px;
+    .download-button {
+      flex: 0 0 auto;
+      padding: 10px 17px;
+      border-radius: 6px;
+      background: #2563eb;
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 600;
+      border: 1px solid #2563eb;
+      transition: background 0.15s ease, border-color 0.15s ease;
+    }
 
-            border-radius: 10px;
-            background: #eef1f5;
+    .download-button:hover {
+      background: #1d4ed8;
+      border-color: #1d4ed8;
+    }
 
-            display: flex;
-            align-items: center;
-            justify-content: center;
+    .download-button.disabled {
+      background: #f1f3f5;
+      color: #9ca3af;
+      border-color: #e1e4e8;
+      cursor: not-allowed;
+    }
 
-            font-size: 25px;
-        }
+    .instructions {
+      margin-top: 34px;
+      background: #ffffff;
+      border: 1px solid #e1e4e8;
+      border-radius: 8px;
+      padding: 28px;
+    }
 
-        .software-info {
-            flex: 1;
-            min-width: 0;
-        }
+    .section-heading h2 {
+      margin: 0;
+      font-size: 22px;
+      font-weight: 650;
+      color: #17191c;
+    }
 
-        .software-name {
-            margin-bottom: 4px;
-            font-size: 17px;
-            font-weight: 600;
-        }
+    .section-heading p {
+      margin: 7px 0 0;
+      color: #6b7280;
+      font-size: 14px;
+      line-height: 1.5;
+    }
 
-        .software-description {
-            margin-bottom: 8px;
-            color: var(--muted);
-            font-size: 14px;
-        }
+    .instruction-list {
+      margin-top: 24px;
+      display: grid;
+      gap: 18px;
+    }
 
-        .software-meta {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
+    .instruction {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
 
-            color: #858b95;
-            font-size: 12px;
-        }
+    .step {
+      width: 30px;
+      height: 30px;
+      flex: 0 0 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: #f0f4ff;
+      color: #2563eb;
+      font-size: 13px;
+      font-weight: 700;
+    }
 
-        .software-meta span:not(:last-child)::after {
-            content: "•";
-            margin-left: 12px;
-            color: #c2c6cc;
-        }
+    .instruction h3 {
+      margin: 1px 0 4px;
+      font-size: 15px;
+      font-weight: 600;
+      color: #17191c;
+    }
 
-        .download-button {
-            flex: 0 0 auto;
+    .instruction p {
+      margin: 0;
+      color: #6b7280;
+      font-size: 14px;
+      line-height: 1.55;
+    }
 
-            min-width: 108px;
-            height: 38px;
-            padding: 0 16px;
+    .instruction code {
+      padding: 2px 5px;
+      border-radius: 4px;
+      background: #f1f3f5;
+      color: #17191c;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 13px;
+    }
 
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
+    .information {
+      margin-top: 34px;
+      background: #ffffff;
+      border: 1px solid #e1e4e8;
+      border-radius: 8px;
+      padding: 28px;
+    }
 
-            border-radius: 6px;
+    .information h2 {
+      margin: 0 0 10px;
+      font-size: 22px;
+      font-weight: 650;
+    }
 
-            background: var(--accent);
-            color: #ffffff;
+    .information p {
+      margin: 0;
+      max-width: 850px;
+      color: #6b7280;
+      font-size: 14px;
+      line-height: 1.7;
+    }
 
-            font-size: 14px;
-            font-weight: 550;
-            text-decoration: none;
+    footer {
+      background: #ffffff;
+      border-top: 1px solid #e1e4e8;
+    }
 
-            transition: background 0.15s ease;
-        }
+    .footer-inner {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 22px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: #6b7280;
+      font-size: 13px;
+    }
 
-        .download-button:hover {
-            background: var(--accent-hover);
-        }
+    @media (max-width: 700px) {
+      header {
+        height: auto;
+      }
 
-        .download-button.disabled {
-            background: #eef0f2;
-            color: #969ba3;
-            cursor: default;
-            pointer-events: none;
-        }
+      .header-inner {
+        padding-top: 16px;
+        padding-bottom: 16px;
+      }
 
-        .information {
-            margin-top: 45px;
-            padding-top: 25px;
+      nav {
+        gap: 16px;
+      }
 
-            border-top: 1px solid var(--border);
+      main {
+        padding-top: 36px;
+      }
 
-            color: var(--muted);
-            font-size: 13px;
-        }
+      .page-heading h1 {
+        font-size: 28px;
+      }
 
-        .information strong {
-            display: block;
-            margin-bottom: 4px;
+      .app-card {
+        align-items: flex-start;
+        flex-wrap: wrap;
+      }
 
-            color: #424852;
-            font-weight: 600;
-        }
+      .app-content {
+        flex: 1 1 calc(100% - 70px);
+      }
 
-        footer {
-            background: #ffffff;
-            border-top: 1px solid var(--border);
-        }
+      .download-button {
+        width: 100%;
+        text-align: center;
+      }
 
-        .footer-inner {
-            max-width: 1180px;
-            margin: 0 auto;
-            padding: 25px 24px;
+      .instructions,
+      .information {
+        padding: 22px;
+      }
 
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+      .footer-inner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+      }
+    }
 
-            color: #7a8089;
-            font-size: 12px;
-        }
+    @media (max-width: 480px) {
+      .header-inner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
 
-        @media (max-width: 700px) {
+      nav {
+        font-size: 13px;
+      }
 
-            main {
-                padding-top: 40px;
-            }
+      .app-card {
+        padding: 18px;
+      }
 
-            .page-heading h1 {
-                font-size: 30px;
-            }
-
-            .software {
-                align-items: flex-start;
-            }
-
-            .download-button {
-                align-self: center;
-            }
-        }
-
-        @media (max-width: 560px) {
-
-            nav {
-                display: none;
-            }
-
-            .software {
-                display: grid;
-                grid-template-columns: 48px 1fr;
-                gap: 15px;
-            }
-
-            .software-icon {
-                width: 48px;
-                height: 48px;
-                flex-basis: 48px;
-                font-size: 21px;
-            }
-
-            .download-button {
-                grid-column: 1 / -1;
-                width: 100%;
-            }
-
-            .footer-inner {
-                display: block;
-            }
-        }
-    </style>
+      .app-icon {
+        width: 46px;
+        height: 46px;
+        flex-basis: 46px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-    <header>
-        <div class="header-inner">
+  <header>
+    <div class="header-inner">
+      <div class="brand">Your Software</div>
 
-            <a href="#" class="brand">
-                Your Software
-            </a>
+      <nav>
+        <a href="#downloads">Downloads</a>
+        <a href="#instructions">How to Run</a>
+        <a href="#information">Information</a>
+      </nav>
+    </div>
+  </header>
 
-            <nav>
-                <a href="#downloads">Downloads</a>
-                <a href="#information">Information</a>
-            </nav>
+  <main>
 
-        </div>
-    </header>
+    <section id="downloads">
+      <div class="page-heading">
+        <h1>Downloads</h1>
+        <p>
+          Download the latest versions of our Windows applications.
+          All applications run locally on your computer.
+        </p>
+      </div>
 
+      <div class="downloads">
 
-    <main>
+        <article class="app-card">
+          <div class="app-icon">🎙</div>
 
-        <section class="page-heading">
-
-            <h1>
-                Downloads
-            </h1>
-
-            <p>
-                Download the latest versions of our Windows applications.
-                All applications run locally on your computer.
-            </p>
-
-        </section>
-
-
-        <section class="software-list" id="downloads">
-
-
-            <!-- VOICE CAPTIONER -->
-
-            <article class="software">
-
-                <div class="software-icon">
-                    🎙
-                </div>
-
-                <div class="software-info">
-
-                    <div class="software-name">
-                        Voice Captioner
-                    </div>
-
-                    <div class="software-description">
-                        Generate captions from audio and video locally.
-                    </div>
-
-                    <div class="software-meta">
-
-                        <span>Windows</span>
-                        <span>Offline</span>
-                        <span>ZIP</span>
-
-                    </div>
-
-                </div>
-
-                <a
-                    class="download-button"
-                    href="https://www.mediafire.com/file/nmyzd2jetgqkawg/Voice-Captioner-Offline-Windows.zip/file"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    Download
-                </a>
-
-            </article>
-
-
-            <!-- YOUTUBE TO MP4 DOWNLOADER -->
-
-            <article class="software">
-
-                <div class="software-icon">
-                    ↓
-                </div>
-
-                <div class="software-info">
-
-                    <div class="software-name">
-                        YouTube to MP4 Downloader
-                    </div>
-
-                    <div class="software-description">
-                        Download YouTube videos as MP4 files using the
-                        Windows application.
-                    </div>
-
-                    <div class="software-meta">
-
-                        <span>Windows</span>
-                        <span>Portable</span>
-                        <span>ZIP</span>
-
-                    </div>
-
-                </div>
-
-                <a
-                    class="download-button"
-                    href="https://www.mediafire.com/file/ct2zgjphc1mpesx/YouTube-Downloader-Portable-Windows.zip/file"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    Download
-                </a>
-
-            </article>
-
-
-            <!-- AUTO CAPTION REMOVER -->
-
-            <article class="software">
-
-                <div class="software-icon">
-                    ✂
-                </div>
-
-                <div class="software-info">
-
-                    <div class="software-name">
-                        Auto Caption Remover
-                    </div>
-
-                    <div class="software-description">
-                        Remove captions from video files locally on Windows.
-                    </div>
-
-                    <div class="software-meta">
-
-                        <span>Windows</span>
-                        <span>Offline</span>
-                        <span>Coming soon</span>
-
-                    </div>
-
-                </div>
-
-                <a
-                    class="download-button disabled"
-                    href="#"
-                >
-                    Coming soon
-                </a>
-
-            </article>
-
-
-        </section>
-
-
-        <section
-            class="information"
-            id="information"
-        >
-
-            <strong>
-                About these applications
-            </strong>
+          <div class="app-content">
+            <h2>Voice Captioner</h2>
 
             <p>
-                The applications listed above are standalone Windows software.
-                This website is only used to provide downloads. Files are
-                processed locally by the applications and are not processed
-                by this website.
+              Generate captions from audio and video locally.
             </p>
 
-        </section>
+            <div class="meta">
+              <span>Windows</span>
+              <span>Offline</span>
+              <span>ZIP</span>
+            </div>
+          </div>
 
-    </main>
+          <a
+            class="download-button"
+            href="https://www.mediafire.com/file/nmyzd2jetgqkawg/Voice-Captioner-Offline-Windows.zip/file"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Download
+          </a>
+        </article>
 
 
-    <footer>
+        <article class="app-card">
+          <div class="app-icon">↓</div>
 
-        <div class="footer-inner">
+          <div class="app-content">
+            <h2>YouTube to MP4 Downloader</h2>
 
-            <span>
-                © 2026 Your Software
-            </span>
+            <p>
+              Download YouTube videos as MP4 files using the Windows application.
+            </p>
 
-            <span>
-                Windows applications
-            </span>
+            <div class="meta">
+              <span>Windows</span>
+              <span>Portable</span>
+              <span>ZIP</span>
+            </div>
+          </div>
 
+          <a
+            class="download-button"
+            href="https://www.mediafire.com/file/ct2zgjphc1mpesx/YouTube-Downloader-Portable-Windows.zip/file"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Download
+          </a>
+        </article>
+
+
+        <article class="app-card">
+          <div class="app-icon">✂</div>
+
+          <div class="app-content">
+            <h2>Auto Caption Remover</h2>
+
+            <p>
+              Remove captions from video files locally on Windows.
+            </p>
+
+            <div class="meta">
+              <span>Windows</span>
+              <span>Offline</span>
+              <span>Coming soon</span>
+            </div>
+          </div>
+
+          <span class="download-button disabled">
+            Coming soon
+          </span>
+        </article>
+
+      </div>
+    </section>
+
+
+    <section id="instructions" class="instructions">
+      <div class="section-heading">
+        <h2>How to run the applications</h2>
+
+        <p>
+          The applications are portable and can be started directly from the
+          extracted folder. No installation wizard is required.
+        </p>
+      </div>
+
+      <div class="instruction-list">
+
+        <div class="instruction">
+          <span class="step">1</span>
+
+          <div>
+            <h3>Download the ZIP</h3>
+
+            <p>
+              Click the download button above and download the application ZIP file.
+            </p>
+          </div>
         </div>
 
-    </footer>
+
+        <div class="instruction">
+          <span class="step">2</span>
+
+          <div>
+            <h3>Extract the ZIP</h3>
+
+            <p>
+              Right-click the downloaded ZIP file and select
+              <strong>Extract All</strong>.
+            </p>
+          </div>
+        </div>
+
+
+        <div class="instruction">
+          <span class="step">3</span>
+
+          <div>
+            <h3>Open the extracted folder</h3>
+
+            <p>
+              Open the folder created after extracting the ZIP file.
+            </p>
+          </div>
+        </div>
+
+
+        <div class="instruction">
+          <span class="step">4</span>
+
+          <div>
+            <h3>Find Start.bat</h3>
+
+            <p>
+              Inside the application folder, find the file named
+              <code>Start.bat</code>.
+            </p>
+          </div>
+        </div>
+
+
+        <div class="instruction">
+          <span class="step">5</span>
+
+          <div>
+            <h3>Run the application</h3>
+
+            <p>
+              Double-click <code>Start.bat</code> to launch the application.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <section id="information" class="information">
+      <h2>Information</h2>
+
+      <p>
+        These are standalone Windows applications designed to run locally on
+        your computer. Download the application, extract the ZIP archive, and
+        use the included <code>Start.bat</code> file to launch it. The
+        applications do not require a traditional installation process.
+      </p>
+    </section>
+
+  </main>
+
+
+  <footer>
+    <div class="footer-inner">
+      <span>© 2026 Your Software</span>
+      <span>Windows applications</span>
+    </div>
+  </footer>
 
 </body>
 </html>
